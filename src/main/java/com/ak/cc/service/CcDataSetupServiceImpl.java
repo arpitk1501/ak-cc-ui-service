@@ -11,16 +11,18 @@ import com.ak.cc.entity.PositionEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @Service
-public class CcServiceImpl implements CcService{
+public class CcDataSetupServiceImpl implements CcDataSetupService {
 
     private final LegalEntityRepository legalEntityRepository;
     private final AccountRepository accountRepository;
     private final AssetCompositeRepository assetCompositeRepository;
     private final PositionRepository positionRepository;
 
-    public CcServiceImpl(LegalEntityRepository legalEntityRepository, AccountRepository accountRepository, AssetCompositeRepository assetCompositeRepository, PositionRepository positionRepository) {
+    public CcDataSetupServiceImpl(LegalEntityRepository legalEntityRepository, AccountRepository accountRepository, AssetCompositeRepository assetCompositeRepository, PositionRepository positionRepository) {
         this.legalEntityRepository = legalEntityRepository;
         this.accountRepository = accountRepository;
         this.assetCompositeRepository = assetCompositeRepository;
@@ -31,6 +33,11 @@ public class CcServiceImpl implements CcService{
     public LegalEntity saveLegalEntity(LegalEntity legalEntity) {
         legalEntity.setCreatedTs(LocalDateTime.now());
         return legalEntityRepository.save(legalEntity);
+    }
+
+    @Override
+    public List<LegalEntity> getLe(String le) {
+        return legalEntityRepository.findAllById(Collections.singletonList(le));
     }
 
     @Override
